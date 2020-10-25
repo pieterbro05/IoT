@@ -11,26 +11,6 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$this->phpserial->deviceSet("/dev/tty.usbmodem411");	
-// We can change the baud rate
-$this->phpserial->confBaudRate(115200); 	
-		
-		
-// Then we need to open it
-$this->phpserial->deviceOpen();
-		
-// To write into
-//$this->phpserial->sendMessage("r");
-		
-// Or to read from
-$read = $this->phpserial->readPort();
-		
-$line = $this->phpserial->readPort();
-			
-print_r($line);
-		
-// If you want to change the configuration, the device must be closed
-$this->phpserial->deviceClose();		
 
 $Waarde = filter_input(INPUT_POST, 'Waarde');
 $ID = filter_input(INPUT_POST, 'ID');
@@ -39,12 +19,9 @@ if (!empty($Waarde)){
 if (!empty($ID)){
 $host = "localhost";
 
-$sql = "INSERT INTO Data (Waarde, ID)
+$sql = "INSERT INTO DataTabel (Waarde, ID)
 VALUES ('$Waarde','$ID')";
-}}
 
-
-$sql = "UPDATE SensorTabel SET ID='ID' WHERE nr=1";
 
 if ($conn->query($sql) === TRUE) {
   echo "OK <br>" ;//. $sql;
@@ -52,6 +29,18 @@ if ($conn->query($sql) === TRUE) {
 else {
   echo "NOK" . $sql . "<br>" . $conn->error;
 }
-
+if($ID){
+$sql = "UPDATE SensorTabel SET Waarde='$Waarde', Naam= 'TemperatuurSensor' WHERE id=$ID";
+}
+else{
+$sql = "UPDATE SensorTabel SET Waarde='$Waarde', Naam= 'LichtSensor' WHERE id=$ID";
+}
+if ($conn->query($sql) === TRUE) {
+  echo "OK <br>" ;//. $sql;
+} 
+else {
+  echo "NOK" . $sql . "<br>" . $conn->error;
+}
+}}
 $conn->close();
 ?>
