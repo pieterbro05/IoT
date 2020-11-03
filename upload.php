@@ -1,35 +1,28 @@
 <!DOCTYPE php>
 <?php
+error_reporting(0);
+set_time_limit(5000000000000000000000);
+include "PhpSerial.php";
 $servername = "localhost";
 $username = "student_11903162";
 $password = "ynLTL67hsDHm";
 $dbname = "student_11903162";
+$serial = new phpSerial();
+$serial->deviceSet("/dev/cu.usbmodem14101");
+$serial->deviceOpen('r+');
+$serial->confBaudRate(9600);
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);// Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
-}	
-$this->phpserial->deviceSet("/dev/tty.usbmodem411");	
-// We can change the baud rate
-$this->phpserial->confBaudRate(115200); 	
-		
-		
-// Then we need to open it
-$this->phpserial->deviceOpen();
-		
-// To write into
-//$this->phpserial->sendMessage("r");
-		
-// Or to read from
+}
 while(1){
-$read = $this->phpserial->readPort();
-		
-$line = $this->phpserial->readPort();
-			
-print_r($line);
-$ID = substr($line, 0, 1);
-$Waarde=substr($line,1,8);
+
+$Lees=$serial->readPort();
+echo $Lees;
+
+$ID = substr($Lees, 0, 1);
+$Waarde=substr($Lees,1,8);
 
 if (!empty($Waarde)){
 if (!empty($ID)){
@@ -57,8 +50,11 @@ if ($conn->query($sql) === TRUE) {
 } 
 else {
   echo "NOK" . $sql . "<br>" . $conn->error;
-}	}
+}	}}}
+	
 // If you want to change the configuration, the device must be closed
-$this->phpserial->deviceClose();
-$conn->close();
+$serial->deviceClose();
+
+
+
 ?>
