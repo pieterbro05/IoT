@@ -1,0 +1,29 @@
+-- Adminer 4.7.6 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+DROP TABLE IF EXISTS `DataTabel`;
+CREATE TABLE `DataTabel` (
+  `ID` int(6) unsigned NOT NULL,
+  `Waarde` int(11) NOT NULL,
+  `Tijd` timestamp NOT NULL DEFAULT current_timestamp(),
+  KEY `ID` (`ID`),
+  CONSTRAINT `DataTabel_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `SensorTabel` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `SensorTabel`;
+CREATE TABLE `SensorTabel` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `Naam` text NOT NULL DEFAULT 'Lichtsensor',
+  `Waarde` tinyint(4) NOT NULL,
+  `IP` text NOT NULL DEFAULT '169.254.170.175/16',
+  `reg_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- 2020-11-16 12:43:38
