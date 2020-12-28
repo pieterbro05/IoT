@@ -22,6 +22,7 @@ $sql="SELECT * FROM DataTabel WHERE ID = 1";
 $result = mysqli_query($conn,$sql);
 while($row = mysqli_fetch_array($result)) {
 	$lasttemp=$row['Waarde'];	
+	$lastTijd1=$row['Tijd'];
 }
 
 $sql= mysqli_query($conn, "SELECT MAX( Waarde ) AS max FROM `DataTabel`WHERE ID =2;" );
@@ -37,6 +38,7 @@ $sql="SELECT * FROM DataTabel WHERE ID = 2";
 $result = mysqli_query($conn,$sql);
 while($row = mysqli_fetch_array($result)) {	
 	$lastlicht=$row['Waarde'];
+	$lastTijd2=$row['Tijd'];
 }
 
 header('Content-type: text/xml;charset=iso-8859-1');
@@ -53,6 +55,8 @@ echo "<title>minimum</title>" . PHP_EOL;
 echo "<description>".$minimumtemp."</description>" . PHP_EOL;
 echo "<title>LastValue</title>" . PHP_EOL;
 echo "<description>".$lasttemp."</description>" . PHP_EOL;
+echo "<title>LastTime</title>" . PHP_EOL;
+echo "<description>".$lastTijd1."</description>" . PHP_EOL;
 echo "<title>Average</title>" . PHP_EOL;
 echo "<description>".$gemtemp."</description>" . PHP_EOL;
 echo "</TemperatuurSensor>" . PHP_EOL;
@@ -63,6 +67,8 @@ echo "<title>minimum</title>" . PHP_EOL;
 echo "<description>".$minimumlicht."</description>" . PHP_EOL;
 echo "<title>LastValue</title>" . PHP_EOL;
 echo "<description>".$lastlicht."</description>" . PHP_EOL;
+echo "<title>LastTime</title>" . PHP_EOL;
+echo "<description>".$lastTijd2."</description>" . PHP_EOL;
 echo "<title>Average</title>" . PHP_EOL;
 echo "<description>".$gemlicht."</description>" . PHP_EOL;
 echo "</LichtSensor>" . PHP_EOL;
